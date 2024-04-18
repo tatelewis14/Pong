@@ -7,7 +7,7 @@ public:
 	void draw(sf::RenderWindow& window);
 	sf::CircleShape& getShape();
 	void setInitialSpeed(sf::Vector2f _speed);
-	bool checkCollision(sf::RectangleShape& rect);
+	bool check_rect_collision(sf::RectangleShape& rect);
 	sf::Vector2f getPosition();
 private:
 	sf::CircleShape ball;

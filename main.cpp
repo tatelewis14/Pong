@@ -67,9 +67,9 @@ int main()
                 }
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            float angle = atan2f(sf::Mouse::getPosition(window).y - paddle.getPosition().y, sf::Mouse::getPosition(window).x - paddle.getPosition().x);
-            float vx = cos(angle);
-            float vy = sin(angle);
+            float angle = atan2(sf::Mouse::getPosition(window).y - paddle.getPosition().y, sf::Mouse::getPosition(window).x - paddle.getPosition().x);
+            float vx = cos(angle) * BULLET_SPEED;
+            float vy = sin(angle) * BULLET_SPEED;
             bullet_manager.shoot(paddle.getPosition().x, paddle.getPosition().y, vx, vy);
         }
 
@@ -80,13 +80,12 @@ int main()
 
     window.clear();
 
-    shoot_timer++;
     //write(window, font, "Hello world!", 300, 400);
     paddle.interpolatePosition(0.1);
     
     ball.update();
-    ball.checkCollision(paddle.getShape());
-    ball.checkCollision(ai_paddle.getShape());
+    ball.check_rect_collision(paddle.getShape());
+    ball.check_rect_collision(ai_paddle.getShape());
 
     paddle.draw(window);
     ai_paddle.draw(window);

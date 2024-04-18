@@ -26,7 +26,7 @@ Ball::Ball() {
 	ball.setRadius(radius);
 	ball.setOrigin(ball.getRadius(), ball.getRadius());
 };
-bool Ball::checkCollision(sf::RectangleShape& rect) {
+bool Ball::check_rect_collision(sf::RectangleShape& rect) {
 	float circle_x = ball.getPosition().x; // circle coordinates(translated to be in the center of the circle)
 	float circle_y = ball.getPosition().y;
 	float rect_x = rect.getPosition().x; //rectangle coordinates(from the top left)

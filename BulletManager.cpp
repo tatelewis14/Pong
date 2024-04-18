@@ -21,16 +21,15 @@ void BulletManager::render(sf::RenderWindow& window) {
 }
 void BulletManager::update() {
 	for (int i = 0; i < bullets.size(); i++) {
+		bullets[i].bounce_on_edge();
 		bullets[i].move();
 	}
 }
 void BulletManager::detectCollision(sf::CircleShape& circle) {
 	for (int i = 0; i < bullets.size(); i++) {
-		for (int j = 0; j < i; j++) {
-			float dist = std::sqrt(std::pow(bullets[i].getPosition().x - circle.getPosition().x, 2 + std::pow(bullets[i].getPosition().y - circle.getPosition().y, 2));
-			if (dist < bullets[i].getRadius() + circle.getRadius()) {
-				std::cout << "Collision\n";
-			}
-		}
+	float dist = std::sqrt(std::pow(bullets[i].getPosition().x - circle.getPosition().x, 2) + std::pow(bullets[i].getPosition().y - circle.getPosition().y, 2));
+	if (dist < bullets[i].getRadius() + circle.getRadius()) {
+		std::cout << "Collision\n";
+	}
 	}
 }

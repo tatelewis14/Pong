@@ -10,8 +10,9 @@ public:
 	sf::Vector2f getPosition();
 	sf::CircleShape& getShape();
 	float getRadius();
+	void bounce_on_edge();
+	void handle_collision();
 	Bullet(float _x, float _y, float _vx, float _vy);
-	~Bullet();
 private:
 	sf::CircleShape ball;
 	float x;
