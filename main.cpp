@@ -5,18 +5,27 @@
 #include"Paddle.hpp"
 #include"Ball.hpp"
 #include"Text.hpp"
-#include<random>
+#include"BulletManager.hpp"
+#include<vector>
 
 int main()
 {
+    BulletManager bullet_manager;
+
     Paddle paddle = Paddle();
     Paddle ai_paddle = Paddle();
     Ball ball = Ball();
+
+    paddle.setPaddleDest(sf::Vector2f(0, (SCREEN_HEIGHT / 2) - paddle.getSize().y / 2));
 
     ai_paddle.getShape().setFillColor(sf::Color::Red);
     ai_paddle.getShape().setPosition(sf::Vector2f(10, 0));
 
     ball.setInitialSpeed(sf::Vector2f(1, 1));
+
+
+
+    float key_hold_time = 1.f;
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong");
     window.setFramerateLimit(120);
@@ -44,34 +53,51 @@ int main()
                 window.close();
             }
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Up) {
-                    paddle.movePaddleDest(sf::Vector2f(0, -PADDLE_SPEED));
+                if (event.key.code == sf::Keyboard::W) {
+                    paddle.movePaddleDest(sf::Vector2f(0, -PADDLE_SPEED * key_hold_time));
+                    key_hold_time++;
                 }
-                else if (event.key.code == sf::Keyboard::Down) {
-                    paddle.movePaddleDest(sf::Vector2f(0, PADDLE_SPEED));
+                else if (event.key.code == sf::Keyboard::S) {
+                    paddle.movePaddleDest(sf::Vector2f(0, PADDLE_SPEED * key_hold_time));
+                    key_hold_time++;
                 }
             }
-            
+                if (event.type = sf::Event::KeyReleased) {
+                    if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::S) key_hold_time = 1;
+                }
         }
-    
-        ai_paddle.setPaddleDest(sf::Vector2f(0, ball.getPosition().y - ai_paddle.getSize().y/2));
-        ai_paddle.interpolatePosition(0.1f);
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            float angle = atan2f(sf::Mouse::getPosition(window).y - paddle.getPosition().y, sf::Mouse::getPosition(window).x - paddle.getPosition().x);
+            float vx = cos(angle);
+            float vy = sin(angle);
+            bullet_manager.shoot(paddle.getPosition().x, paddle.getPosition().y, vx, vy);
+        }
+
+        if (ball.getPosition().x < SCREEN_WIDTH / 2) ai_paddle.setPaddleDest(sf::Vector2f(0, ball.getPosition().y - ai_paddle.getSize().y / 2));
+        else ai_paddle.setPaddleDest(sf::Vector2f(0, (SCREEN_HEIGHT / 2) - ai_paddle.getSize().y/2));
+        ai_paddle.interpolatePosition(0.05f);
 
 
     window.clear();
+
+    shoot_timer++;
     //write(window, font, "Hello world!", 300, 400);
-    paddle.interpolatePosition(0.1f);
+    paddle.interpolatePosition(0.1);
     
     ball.update();
-    
     ball.checkCollision(paddle.getShape());
     ball.checkCollision(ai_paddle.getShape());
 
     paddle.draw(window);
     ai_paddle.draw(window);
+
     ball.draw(window);
+
+    bullet_manager.render(window);
+    bullet_manager.detectCollision(ball.getShape());
+    bullet_manager.update();
+
     window.draw(center_line, 2, sf::Lines);
-    
     window.display();
     }   
 

@@ -5,6 +5,7 @@ public:
 	Ball();
 	void update();
 	void draw(sf::RenderWindow& window);
+	sf::CircleShape& getShape();
 	void setInitialSpeed(sf::Vector2f _speed);
 	bool checkCollision(sf::RectangleShape& rect);
 	sf::Vector2f getPosition();

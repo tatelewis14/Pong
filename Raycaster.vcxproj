@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Paddle.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -147,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.hpp" />
+    <ClInclude Include="Bullet.hpp" />
+    <ClInclude Include="BulletManager.hpp" />
     <ClInclude Include="Global.hpp" />
     <ClInclude Include="Paddle.hpp" />
     <ClInclude Include="resource.h" />

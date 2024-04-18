@@ -52,3 +52,6 @@ sf::Vector2f Ball::getPosition() {
 void Ball::draw(sf::RenderWindow& window) {
 	window.draw(ball);
 }
+sf::CircleShape& Ball::getShape() {
+	return ball;
+}
