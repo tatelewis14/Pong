@@ -11,7 +11,7 @@ public:
 	void shoot(float _x, float _y, float _vx, float _vy);
 	void render(sf::RenderWindow& window);
 	void update();
-	void detectCollision(sf::CircleShape& circle);
+	void detect_collision(sf::CircleShape& circle);
 private:
 	std::vector<Bullet> bullets;
 };

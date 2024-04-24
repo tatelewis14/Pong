@@ -30,6 +30,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong");
     window.setFramerateLimit(120);
 
+
     sf::Vertex center_line[] = {
         sf::Vertex(sf::Vector2f(SCREEN_WIDTH/2.f, 0.f)),
         sf::Vertex(sf::Vector2f(SCREEN_WIDTH/2.f, SCREEN_HEIGHT))
@@ -70,7 +71,7 @@ int main()
             float angle = atan2(sf::Mouse::getPosition(window).y - paddle.getPosition().y, sf::Mouse::getPosition(window).x - paddle.getPosition().x);
             float vx = cos(angle) * BULLET_SPEED;
             float vy = sin(angle) * BULLET_SPEED;
-            bullet_manager.shoot(paddle.getPosition().x, paddle.getPosition().y, vx, vy);
+            bullet_manager.shoot(paddle.getPosition().x, paddle.getPosition().y + paddle.getSize().y/2, vx, vy);
         }
 
         if (ball.getPosition().x < SCREEN_WIDTH / 2) ai_paddle.setPaddleDest(sf::Vector2f(0, ball.getPosition().y - ai_paddle.getSize().y / 2));
@@ -93,7 +94,7 @@ int main()
     ball.draw(window);
 
     bullet_manager.render(window);
-    bullet_manager.detectCollision(ball.getShape());
+    bullet_manager.detect_collision(ball.getShape());
     bullet_manager.update();
 
     window.draw(center_line, 2, sf::Lines);

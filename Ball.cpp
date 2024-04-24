@@ -55,3 +55,6 @@ void Ball::draw(sf::RenderWindow& window) {
 sf::CircleShape& Ball::getShape() {
 	return ball;
 }
+sf::Vector2f Ball::get_velocity() {
+	return velocity;
+}
