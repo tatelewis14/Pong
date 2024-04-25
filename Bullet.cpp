@@ -87,8 +87,8 @@ void Bullet::handle_static_collision(Bullet& target) {
 	float unit_x = distance_x / length;
 	float unit_y = distance_y / length;
 
-	set_position(midpoint_x + (radii_sum + 1) * unit_x, midpoint_y + (radii_sum + 1) * unit_y);
-	target.set_position(midpoint_x - (radii_sum + 1) * unit_x, midpoint_y - (radii_sum + 1) * unit_y);
+	set_position(midpoint_x + ((radii_sum + 1) * unit_x) * 0.5, midpoint_y + ((radii_sum + 1) * unit_y) * 0.5);
+	target.set_position(midpoint_x - ((radii_sum + 1) * unit_x) * 0.5, midpoint_y - ((radii_sum + 1) * unit_y) * 0.5);
 }
 void Bullet::handle_dynamic_collision(Bullet& target) {
 

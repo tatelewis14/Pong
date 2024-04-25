@@ -14,15 +14,12 @@ int main()
 
     Paddle paddle = Paddle();
     Paddle ai_paddle = Paddle();
-    Ball ball = Ball();
+    Ball ball = Ball(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 1,1,15);
 
     paddle.setPaddleDest(sf::Vector2f(0, (SCREEN_HEIGHT / 2) - paddle.getSize().y / 2));
 
     ai_paddle.getShape().setFillColor(sf::Color::Red);
     ai_paddle.getShape().setPosition(sf::Vector2f(10, 0));
-
-    ball.setInitialSpeed(sf::Vector2f(1, 1));
-
 
 
     float key_hold_time = 1.f;
@@ -92,6 +89,7 @@ int main()
     ai_paddle.draw(window);
 
     ball.draw(window);
+    ball.check_bullet_collision(bullet_manager.getBullets());
 
     bullet_manager.render(window);
     bullet_manager.detect_collision(ball.getShape());
