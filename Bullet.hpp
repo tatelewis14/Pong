@@ -16,7 +16,6 @@ public:
 	void bounce_on_edge();
 	sf::Vector2f get_velocity();
 	void handle_static_collision(Bullet& target);
-	void handle_dynamic_collision(Bullet& target);
 	float dot_product(const sf::Vector2f& v1, const sf::Vector2f& v2);
 	Bullet(float _x, float _y, float _vx, float _vy);
 private:

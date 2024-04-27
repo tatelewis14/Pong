@@ -84,12 +84,11 @@ int main()
     ball.update();
     ball.check_rect_collision(paddle.getShape());
     ball.check_rect_collision(ai_paddle.getShape());
+    ball.check_bullet_collision(bullet_manager.getBullets());
+    ball.draw(window);
 
     paddle.draw(window);
     ai_paddle.draw(window);
-
-    ball.draw(window);
-    ball.check_bullet_collision(bullet_manager.getBullets());
 
     bullet_manager.render(window);
     bullet_manager.detect_collision(ball.getShape());

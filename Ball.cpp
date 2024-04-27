@@ -6,15 +6,19 @@
 
 void Ball::update() {
 	if (ball.getPosition().x + radius > SCREEN_WIDTH) {
+		x = SCREEN_WIDTH - radius;
 		vx *= -1;
 	}
 	if (ball.getPosition().x - radius < 0) {
+		x = radius;
 		vx *= -1;
 	}
 	if (ball.getPosition().y + radius > SCREEN_HEIGHT) {
+		y = SCREEN_HEIGHT - radius;
 		vy *= -1;
 	}
 	if (ball.getPosition().y- radius < 0) {
+		y = radius;
 		vy *= -1;
 	}
 	x += vx;
@@ -78,8 +82,22 @@ void Ball::handle_bullet_collision(Bullet& target) {
 	float unit_x = distance_x / length;
 	float unit_y = distance_y / length;
 
-	set_position(midpoint_x + ((radii_sum + 1) * unit_x) * 0.5, midpoint_y + ((radii_sum + 1) * unit_y) * 0.5);
-	target.set_position(midpoint_x - ((radii_sum + 1) * unit_x) * 0.5, midpoint_y - ((radii_sum + 1) * unit_y) * 0.5);
+	set_position(midpoint_x + radius * unit_x, midpoint_y + radius * unit_y);
+	target.set_position(midpoint_x - target.getRadius() * unit_x, midpoint_y - target.getRadius() * unit_y);
+
+	length = sqrt(std::pow(distance_x, 2) + std::pow(distance_y, 2));
+
+	sf::Vector2f normal((target_x - ball_x) / length, (target_y - ball_y) / length);
+	float p = 2 * (((vx * normal.x) + (vy * normal.y)) - (target.get_velocity().x * normal.x) + (target.get_velocity().y * normal.y)) / radius + target.getRadius();
+
+	float damping = 10;
+
+	vx = (vx - (p * radius * normal.x))/damping;
+	vy = (vy - (p * radius * normal.y))/damping;
+
+	sf::Vector2f new_target_velocity(target.get_velocity().x + (p * target.getRadius() * normal.x)/damping, target.get_velocity().y + (p * target.getRadius() * normal.y)/damping);
+
+	target.set_velocity(new_target_velocity);
 }
 sf::Vector2f Ball::getPosition() {
 	return ball.getPosition();

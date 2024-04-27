@@ -82,16 +82,33 @@ void Bullet::handle_static_collision(Bullet& target) {
 
 	float length = sqrt(std::pow(distance_x, 2) + std::pow(distance_y, 2));
 
+	if (length > radii_sum) return;
+
 	if (length == 0) length = 1;
 
 	float unit_x = distance_x / length;
 	float unit_y = distance_y / length;
 
-	set_position(midpoint_x + ((radii_sum + 1) * unit_x) * 0.5, midpoint_y + ((radii_sum + 1) * unit_y) * 0.5);
-	target.set_position(midpoint_x - ((radii_sum + 1) * unit_x) * 0.5, midpoint_y - ((radii_sum + 1) * unit_y) * 0.5);
-}
-void Bullet::handle_dynamic_collision(Bullet& target) {
+	set_position(midpoint_x + radius * unit_x, midpoint_y + radius * unit_y);
+	target.set_position(midpoint_x - target.getRadius() * unit_x, midpoint_y - target.getRadius() * unit_y);
 
+	distance_x = x-target.getPosition().x;
+	distance_y = y-target.getPosition().y;
+
+	length = sqrt(std::pow(distance_x, 2) + std::pow(distance_y, 2));
+	
+	if (length == 0) length = 1;
+
+	sf::Vector2f normal((target_x - ball_x) / length, (target_y - ball_y) / length);
+	float p = 2 * (((vx * normal.x) + (vy * normal.y)) - (target.get_velocity().x * normal.x) + (target.get_velocity().y * normal.y)) / radius + target.getRadius();
+
+	float damping = 1;
+
+	sf::Vector2f new_velocity((vx - (p * radius * normal.x)) / damping, (vy - (p * radius * normal.y)) / damping);
+	set_velocity(new_velocity);
+
+	sf::Vector2f new_target_velocity(target.get_velocity().x + (p * target.getRadius() * normal.x) / damping, target.get_velocity().y + (p * target.getRadius() * normal.y) / damping);
+	target.set_velocity(new_target_velocity);
 }
 float magnitude(sf::Vector2f vector) {
 	return std::sqrt(std::pow(vector.x, 2) + std::pow(vector.y, 2));

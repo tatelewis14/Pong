@@ -26,8 +26,7 @@ Paddle::Paddle() {
 void Paddle::interpolatePosition(float t) {
 	sf::Vector2f interpolated_velocities;
 	interpolated_velocities.y = rect.getPosition().y + t * (next_position.y - rect.getPosition().y);
-	interpolated_velocities.x = rect.getPosition().x;//rect.getPosition().x + t * (next_position.x - rect.getPosition().x);
-	//std::cout<< "x: " << interpolated_velocities.x << " y: " << interpolated_velocities.y << "\n";
+	interpolated_velocities.x = rect.getPosition().x;
 	rect.setPosition(interpolated_velocities);
 };
 sf::Vector2f Paddle::getPosition() {
